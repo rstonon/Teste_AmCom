@@ -21,6 +21,7 @@ builder.Services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
 builder.Services.AddScoped<IContaCorrenteRepository, ContaCorrenteRepository>();
 builder.Services.AddScoped<ISaldoRepository, SaldoRepository>();
 builder.Services.AddScoped<IMovimentoRepository, MovimentoRepository>();
+builder.Services.AddScoped<IIdempotenciaRepository, IdempotenciaRepository>();
 
 builder.Services.AddTransient<ContaCorrenteValidator>();
 builder.Services.AddTransient<MovimentoValidator>();

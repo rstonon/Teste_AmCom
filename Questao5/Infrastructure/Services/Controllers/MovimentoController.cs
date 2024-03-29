@@ -5,14 +5,17 @@ using Questao5.Application.Commands.CreateMovimento;
 using Questao5.Application.Queries.GetContaCorrente;
 using Questao5.Domain.Entities;
 using IdempotentAPI.Filters;
+using Questao5.Application.Queries.GetIdempotente;
+using Questao5.Application.Commands.AddIdempotencia;
+using Newtonsoft.Json;
 
 namespace Questao5.Infrastructure.Services.Controllers
 {
     [ApiController]
     [Route("api/movimento")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [Idempotent(Enabled = true)]
+    //[Consumes("application/json")]
+    //[Produces("application/json")]
+    //[Idempotent(Enabled = true)]
     public class MovimentoController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -66,9 +69,33 @@ namespace Questao5.Infrastructure.Services.Controllers
                 return BadRequest(messages);
             }
 
-            var id = await _mediator.Send(command);
+            var idempotencia = new GetIdempotenciaQuery(command.IdMovimento);
 
+            var valid = await _mediator.Send(idempotencia);
+
+            if (valid != null)
+            {
+                var erro = new ValidationFailure();
+                erro.ErrorCode = "INVALID_REQUEST";
+                erro.ErrorMessage = "Já existe uma requisição com esse IdMovimento.";
+
+                var result = new ValidationResult();
+                result.Errors.Add(erro);
+
+                var messages = result.Errors.Select(r => new { r.ErrorCode, r.ErrorMessage });
+
+                return BadRequest(messages);
+            }
+
+            var json = JsonConvert.SerializeObject(command);
+
+            var addIdempotencia = new AddIdempotenciaCommand(command.IdMovimento, json);
+            await _mediator.Send(addIdempotencia);
+
+            var id = await _mediator.Send(command);
             return Ok(id);
+
+
         }
     }
 }
