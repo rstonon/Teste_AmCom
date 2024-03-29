@@ -7,5 +7,4 @@ Teste de Analista de Sistemas .NET para a empresa AmCom, utilizando as seguintes
 - ``CQRS``
 - ``Mediator``
 - ``NSubstitute``
-
-  Obs.: Utilizando idempotência em memória.
+- ``Idempotência diretamente no DB``
