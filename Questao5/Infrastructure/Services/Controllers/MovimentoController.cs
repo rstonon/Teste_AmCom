@@ -87,12 +87,15 @@ namespace Questao5.Infrastructure.Services.Controllers
                 return BadRequest(messages);
             }
 
-            var json = JsonConvert.SerializeObject(command);
-
-            var addIdempotencia = new AddIdempotenciaCommand(command.IdMovimento, json);
-            await _mediator.Send(addIdempotencia);
-
             var id = await _mediator.Send(command);
+
+            if (id != null)
+            {
+                var json = JsonConvert.SerializeObject(command);
+                var addIdempotencia = new AddIdempotenciaCommand(command.IdMovimento, json);
+                await _mediator.Send(addIdempotencia);
+            }
+
             return Ok(id);
 
 

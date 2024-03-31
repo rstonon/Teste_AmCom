@@ -25,7 +25,7 @@ namespace Questao5.Infrastructure.Persistence
 
             var param = new
             {
-                @idmovimento = movimento.IdMovimento,
+                @idmovimento = Utils.GerarHashMd5(movimento.IdMovimento),
                 @idcontacorrente = movimento.IdContaCorrente,
                 @datamovimento = DateTime.Now.ToString("yyyy-MM-dd"),
                 @tipomovimento = movimento.TipoMovimento,

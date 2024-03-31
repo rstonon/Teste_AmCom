@@ -22,7 +22,7 @@ namespace Questao5.Infrastructure.Persistence
 
             var param = new
             {
-                @chave_idempotencia = idempotencia.ChaveIdempotencia,
+                @chave_idempotencia = Utils.GerarHashMd5(idempotencia.ChaveIdempotencia),
                 @requisicao = idempotencia.Requisicao,
                 @resultado = DateTime.Now,
             };
@@ -48,7 +48,7 @@ namespace Questao5.Infrastructure.Persistence
 
                 var parametros = new
                 {
-                    idMovimento
+                    @idMovimento = Utils.GerarHashMd5(idMovimento)
                 };
 
                 var obj = await sqliteConnection.QueryFirstOrDefaultAsync<Idempotencia>(query, parametros);

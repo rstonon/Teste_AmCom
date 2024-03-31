@@ -21,12 +21,16 @@ namespace Questao5.Infrastructure.Persistence
 
                 var query = "SELECT c.numero, c.nome, IFNULL((SELECT IFNULL(SUM(valor), 0) FROM movimento WHERE idcontacorrente = m.idcontacorrente AND tipomovimento = 'C') - (SELECT IFNULL(SUM(valor), 0) FROM movimento WHERE idcontacorrente = m.idcontacorrente AND tipomovimento = 'D'), 0) as valor FROM contacorrente c LEFT JOIN movimento m ON c.idcontacorrente = m.idcontacorrente WHERE c.idContaCorrente = @idContaCorrente GROUP BY c.idcontacorrente";
 
-                var parametros = new DynamicParameters();
-                parametros.Add("@idContaCorrente", idContaCorrente);
+                var param = new
+                {
+                    @idContaCorrente = idContaCorrente
+                };
 
-                var obj = await sqliteConnection.QueryFirstOrDefaultAsync<Saldo>(query, parametros);
+                var obj = await sqliteConnection.QueryFirstOrDefaultAsync<Saldo>(query, param);
 
-                obj.Data = DateTime.Now;
+                
+                    obj.Data = DateTime.Now;
+                
 
                 return obj;
             }

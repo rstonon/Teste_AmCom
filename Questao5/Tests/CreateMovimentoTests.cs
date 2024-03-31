@@ -11,7 +11,7 @@ namespace Questao5.Tests
         [Fact]
         public void CreateMovimentoAreValid()
         {
-            var movimento = new Movimento("teste", "382D323D-7067-ED11-8866-7D5DFA4A16C9", "C", 1500);
+            var movimento = new Movimento(Utils.GerarHashMd5("teste"), "382D323D-7067-ED11-8866-7D5DFA4A16C9", "C", 1500);
 
             IMovimentoRepository movimentoRepositorySubstitute = Substitute.For<IMovimentoRepository>();
 
@@ -25,7 +25,7 @@ namespace Questao5.Tests
         [Fact]
         public void CreateMovimentoAreNotValid_InvalidAccount()
         {
-            var movimento = new Movimento("teste", "123", "C", 1500);
+            var movimento = new Movimento(Utils.GerarHashMd5("teste"), "123", "C", 1500);
 
             IMovimentoRepository movimentoRepositorySubstitute = Substitute.For<IMovimentoRepository>();
 
@@ -39,7 +39,7 @@ namespace Questao5.Tests
         [Fact]
         public void CreateMovimentoAreNotValid_InativeAccount()
         {
-            var movimento = new Movimento("teste", "D2E02051-7067-ED11-94C0-835DFA4A16C9", "C", 1500);
+            var movimento = new Movimento(Utils.GerarHashMd5("teste"), "D2E02051-7067-ED11-94C0-835DFA4A16C9", "C", 1500);
 
             IMovimentoRepository movimentoRepositorySubstitute = Substitute.For<IMovimentoRepository>();
 
@@ -53,7 +53,7 @@ namespace Questao5.Tests
         [Fact]
         public void CreateMovimentoAreNotValid_InvalidValue()
         {
-            var movimento = new Movimento("teste", "FA99D033-7067-ED11-96C6-7C5DFA4A16C9", "C", -5);
+            var movimento = new Movimento(Utils.GerarHashMd5("teste"), "FA99D033-7067-ED11-96C6-7C5DFA4A16C9", "C", -5);
 
             IMovimentoRepository movimentoRepositorySubstitute = Substitute.For<IMovimentoRepository>();
 
@@ -67,7 +67,7 @@ namespace Questao5.Tests
         [Fact]
         public void CreateMovimentoAreNotValid_InvalidType()
         {
-            var movimento = new Movimento("teste", "FA99D033-7067-ED11-96C6-7C5DFA4A16C9", "A", 800);
+            var movimento = new Movimento(Utils.GerarHashMd5("teste"), "FA99D033-7067-ED11-96C6-7C5DFA4A16C9", "A", 800);
 
             IMovimentoRepository movimentoRepositorySubstitute = Substitute.For<IMovimentoRepository>();
 
